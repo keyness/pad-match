@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.demo.mapper.MatchTwoMapper">
+
+    <resultMap id="matchTwoResult" type="com.boot.demo.entity.MatchTwo">
+        <result property="id" column="ID"/>
+        <result property="roomNum" column="ROOM_NUM"/>
+        <result property="leader" column="LEADER"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="remark" column="REMARK"/>
+        <result property="status" column="STATUS"/>
+        <result property="dungeonName" column="DUNGEON_NAME"/>
+    </resultMap>
+
+    <select id="findByDungeonId" parameterType="java.lang.Long" resultMap="matchTwoResult">
+    SELECT PM.* FROM PAD_MATCH_TWO PM
+    LEFT JOIN PAD_DUNGEON PD ON PM.DUNGEON_NAME = PD.NAME
+    WHERE PD.ID = #{id, jdbcType=NUMERIC}
+    ORDER BY PM.CREATE_TIME DESC
+</select>
+
+    <select id="findAll" parameterType="java.lang.Long" resultMap="matchTwoResult">
+        SELECT * FROM PAD_MATCH_TWO
+        ORDER BY CREATE_TIME DESC
+    </select>
+
+    <insert id="create" parameterType="com.boot.demo.entity.MatchTwo">
+        INSERT INTO PAD_MATCH_TWO (ROOM_NUM, LEADER, CREATE_TIME, REMARK, STATUS, DUNGEON_NAME)
+        VALUES (#{roomNum, jdbcType=VARCHAR}, #{leader, jdbcType=VARCHAR},
+        #{createTime, jdbcType=TIMESTAMP}, #{remark, jdbcType=VARCHAR},
+        #{status, jdbcType=VARCHAR}, #{dungeonName, jdbcType=VARCHAR})
+    </insert>
+
+    <delete id="cleanMatchRoom">
+        <![CDATA[
+		DELETE FROM PAD_MATCH_TWO
+		WHERE ( CURRENT_TIMESTAMP - CREATE_TIME ) >= 1500
+		]]>
+    </delete>
+
+</mapper>

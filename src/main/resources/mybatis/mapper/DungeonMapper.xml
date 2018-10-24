@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.demo.mapper.DungeonMapper">
+
+    <resultMap id="dungeonResult" type="com.boot.demo.entity.Dungeon">
+        <result property="id" column="ID"/>
+        <result property="name" column="NAME"/>
+        <result property="type" column="TYPE"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="status" column="STATUS"/>
+    </resultMap>
+
+    <select id="findByType" parameterType="java.lang.String" resultMap="dungeonResult">
+        SELECT * FROM PAD_DUNGEON
+        WHERE TYPE = #{typeNo, jdbcType=VARCHAR}
+    </select>
+
+    <select id="findAll" resultMap="dungeonResult">
+        SELECT * FROM PAD_DUNGEON
+    </select>
+
+    <insert id="create" parameterType="com.boot.demo.entity.Dungeon">
+        INSERT INTO PAD_DUNGEON (NAME, TYPE, CREATE_TIME, STATUS)
+        VALUES (#{name, jdbcType=VARCHAR}, #{type, jdbcType=VARCHAR}, #{createTime, jdbcType=TIMESTAMP}, #{status, jdbcType=VARCHAR})
+    </insert>
+
+
+
+</mapper>

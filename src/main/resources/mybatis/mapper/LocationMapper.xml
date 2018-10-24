@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boot.demo.mapper.LocationMapper">
+
+    <resultMap id="locationResult" type="com.boot.demo.entity.Location">
+        <result property="id" column="ID"/>
+        <result property="xLocation" column="X_LOCATION"/>
+        <result property="yLocation" column="Y_LOCATION"/>
+        <result property="createTime" column="CREATE_TIME"/>
+        <result property="item" column="ITEM"/>
+    </resultMap>
+
+    <insert id="create" parameterType="com.boot.demo.entity.Location">
+        INSERT INTO PAD_LOCATION (X_LOCATION, Y_LOCATION, ITEM, CREATE_TIME)
+        VALUES (#{xLocation, jdbcType=VARCHAR}, #{yLocation, jdbcType=VARCHAR}, #{item, jdbcType=VARCHAR}, #{createTime, jdbcType=TIMESTAMP})
+    </insert>
+
+
+</mapper>
